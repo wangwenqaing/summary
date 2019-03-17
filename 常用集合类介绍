@@ -1,0 +1,109 @@
+一．常用集合类介绍
+
+List、Map、Set三个接口，存取元素时，都有什么特点呢？
+
+List ：以特定顺序来持有元素，可以有重复元素。
+
+Set ：不能有重复元素,内部排序。
+
+Map ：保存key-value值，value可多值。
+
+因为是接口。我们不能直接new对象。所以我们主要使用的是他们的实现类。那么接下来我们来了解一下他们吧。
+
+1.Map的Hashtable和HashMap的区别：
+
+Hashtable的方法是同步的，HashMap未经同步，所以在多线程场合要手动同步HashMap这个区别就像Vector和ArrayList一样。
+
+Hashtable不允许 null 值(key 和 value 都不可以)，HashMap允许 null 值(key和value都可以)。
+
+2.List的Vector、ArrayList和LinkedList 的异同
+
+ArrayList 是一个可改变大小的数组.当更多的元素加入到ArrayList中时,其大小将会动态地增长.内部的元素可以直接通过get与set方法进行访问,因为ArrayList本质上就是一个数组.
+
+LinkedList 是一个双链表,在添加和删除元素时具有比ArrayList更好的性能.但在get与set方面弱于ArrayList.当然,这些对比都是指数据量很大或者操作很频繁的情况下的对比,如果数据和运算量很小,那么对比将失去意义.
+
+Vector 和ArrayList类似,但属于强同步类。如果你的程序本身是线程安全的(thread-safe,没有在多个线程之间共享同一个集合/对象),那么使用ArrayList是更好的选择。
+
+二．集合接口Collection
+
+1.了解顶层接口
+
+Collection是最基本的集合接口，一个Collection代表一组Object，即Collection的元素。一些Collection允许有相同的元素而另一些不可以。一些能排序而另一些不行。Java SDK不提供直接继承自Collection的类，Java SDK提供的类都是继承自Collection的“子接口”如List和Set。
+
+2.遍历集合元素的通用方法介绍
+
+如何遍历Collection中的每一个元素？不论Collection的实际类型如何，它都支持一个iterator()的方法，该方法返回一个迭代器，使用该迭代器即可逐一访问Collection中每一个元素。
+
+典型的用法如下：
+
+Iterator it = collection.iterator(); // 获得一个迭代器
+
+while(it.hasNext()) {
+
+Object obj = it.next(); // 得到下一个元素
+
+}
+
+3.Collection接口派生的List和Set。
+
+List接口
+
+List是有序的Collection，使用此接口能够精确的控制每个元素插入的位置。用户能够使用索引（元素在List中的位置，类似于数组的下标，也是从0开始）来访问List中的元素。和Set不同，List允许有相同的元素。除了具有Collection接口必备的iterator()方法外，List还提供一个listIterator()方法，返回一个ListIterator接口，和标准的Iterator接口相比，ListIterator多了一些add()之类的方法，允许添加，删除，设定元素，还能向前或向后遍历。 具体方法可以参照api文档。实现List接口的常用类有LinkedList，ArrayList和Vector类 。
+
+LinkedList类
+
+LinkedList实现了List接口，允许null元素。此外LinkedList提供额外的get，remove，insert方法在LinkedList的首部或尾部。这些操作使LinkedList可被用作堆栈，队列或双向队列。注意LinkedList没有同步方法。如果多个线程同时访问一个List，则必须自己实现访问同步。
+
+一种解决方法是在创建List时构造一个同步的List：
+
+List list = Collections.synchronizedList(new LinkedList(...));
+
+ArrayList类
+
+ArrayList实现了可变大小的数组。它允许所有元素，包括null。ArrayList没有同步。 size，isEmpty，get，set方法运行时间为常数。
+
+每个ArrayList实例都有一个容量（Capacity），即用于存储元素的数组的大小。这个容量可随着不断添加新元素而自动增加，但是增长算法并没有定义。和LinkedList一样，ArrayList也是非同步的也就是不安全的。
+
+Vector类
+
+Vector非常类似ArrayList，但是Vector是同步的也就是线程安全的。由Vector创建的Iterator，虽然和ArrayList创建的Iterator是同一接口，但是，因为Vector是同步的，当一个Iterator被创建而且正在被使用，另一个线程改变了Vector的状态（例如，添加或删除了一些元素），这时调用Iterator的方法时将抛出并发修改异常，因此必须捕获该异常。 注意：Vector现在不常用。
+
+Set接口
+
+Set是一种不包含重复的元素的Collection，即任意的两个元素e1和e2都有e1.equals(e2)=false，Set最多有一个null元素。很明显，Set的构造函数有一个约束条件，传入的Collection参数不能包含重复的元素。
+
+Map接口
+
+请注意，Map没有继承Collection接口，Map提供key到value的映射。一个Map中不能包含相同的key，每个key只能映射一个value。Map接口提供3种集合的视图，Map的内容可以被当作一组key集合，一组value集合，或者一组key-value映射。
+
+Hashtable类
+
+Hashtable继承Map接口，实现一个key-value映射的哈希表。任何非空（non-null）的对象都可作为key或者value。添加数据使用put(key, value)，取出数据使用get(key)，这两
+
+个基本操作的时间开销为常数。 Hashtable通过initial capacity和load factor两个参数调整性能。通常缺省的load factor 0.75较好地实现了时间和空间的均衡。增大load factor可以节省空间但相应的查找时间将增大，这会影响像get和put这样的操作。
+
+使用Hashtable的简单示例如下，将1，2，3放到Hashtable中，他们的key分别是”one”，”two”，”three”：
+
+Hashtable numbers = new Hashtable();
+
+numbers.put(“one”, new Integer(1));
+
+numbers.put(“two”, new Integer(2));
+
+numbers.put(“three”, new Integer(3));
+
+要取出一个数，比如2，用相应的key：
+
+Integer n = (Integer)numbers.get(“two”);
+
+System.out.println(“two = ” + n);
+
+由于作为key的对象将通过计算其散列函数来确定与之对应的value的位置，因此任何作为key的对象都必须实现hashCode和equals方法。hashCode和equals方法继承自根类Object，如果你用自定义的类当作key的话，要相当小心，按照散列函数的定义，如果两个对象相同，即obj1.equals(obj2)=true，则它们的hashCode必须相同，但如果两个对象不同，则它们的hashCode不一定不同，如果两个不同对象的hashCode相同，这种现象称为冲突，冲突会导致操作哈希表的时间开销增大，所以尽量定义好的hashCode()方法，能加快哈希表的操作。
+
+如果相同的对象有不同的hashCode，对哈希表的操作会出现意想不到的结果（期待的get方法返回null），要避免这种问题，只需要牢记一条：要同时复写equals方法和hashCode方法，而不要只写其中一个。
+
+Hashtable是同步的。
+
+HashMap类
+
+HashMap和Hashtable类似，不同之处在于HashMap是非同步的，并且允许null，即null value和null key。，但是将HashMap视为Collection时（values()方法可返回Collection），其迭代子操作时间开销和HashMap的容量成比例。因此，如果迭代操作的性能相当重要的话，不要将HashMap的初始化容量设得过高。
