@@ -8,3 +8,15 @@
 8、版本回退git reset  --hard HEAD^
 9、git reflog查看版本号
 10、通过版本号回退git reset  --hard 6fcfc89
+
+
+
+git与github的连接：
+1、　第一步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果有的话，直接跳过此如下命令，如果没有的话，打开命令行，输入如下命令：
+
+　　ssh-keygen  -t rsa –C “youremail@example.com”, 
+2、第二步：登录github,打开” settings”中的SSH Keys页面，然后点击“Add SSH Key”,填上任意title，在Key文本框里黏贴id_rsa.pub文件的内容。
+
+3、git remote add origin https://github.com/tugenhua0707/testgit.git 把本地仓库克隆至远程仓库
+
+4、把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。
