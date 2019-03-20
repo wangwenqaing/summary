@@ -20,3 +20,5 @@ git与github的连接：
 3、git remote add origin https://github.com/tugenhua0707/testgit.git 把本地仓库克隆至远程仓库
 
 4、把本地库的内容推送到远程，使用 git push命令，实际上是把当前分支master推送到远程。
+
+5、使用git clone https://github.com/wangwenqaing/Git将远程仓库的内容克隆到本地。
