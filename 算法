@@ -1,0 +1,27 @@
+package bridge;
+
+public class TouTiaoGuoBridge {
+	/**
+	 * 头条递归解3人过河问题
+	 */
+	public static void main(String[] args) {
+		int[] time ={1,1,1,1,9,9,9};//过河时间
+		int n =7;      //过河人数
+		System.out.println(solve(time,n));
+
+	}
+
+	private static int solve(int[] time, int n) {
+		if(n==4){
+			return time[1]+time[2]+time[3];
+		}
+		if(n==3){
+			return time[2];
+		}
+		if(n==2){
+			return time[1];
+		}
+			return solve(time,n-3)+time[n-1]+2*time[3]+time[2]+2*time[1];
+	}
+
+}
